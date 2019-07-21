@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
 import { HttpClientModule }    from '@angular/common/http';;
 
 import { AppComponent } from './app.component';
@@ -11,8 +12,9 @@ import { PortfolioComponent } from './component/portfolio/portfolio.component';
 import { StockpickerComponent } from './component/stockpicker/stockpicker.component';
 import { SettingComponent } from './component/setting/setting.component';
 import { LoginComponent } from './component/login/login.component';
-import { LogincheckComponent } from './component/logincheck/logincheck.component';
+
 import bootstrap from "bootstrap";
+import { RegisterComponent } from './component/register/register.component';
 
 @NgModule({
   declarations: [
@@ -23,11 +25,12 @@ import bootstrap from "bootstrap";
     StockpickerComponent,
     SettingComponent,
     LoginComponent,
-    LogincheckComponent
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule
   ],
