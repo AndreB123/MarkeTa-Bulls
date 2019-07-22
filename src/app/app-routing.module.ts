@@ -7,14 +7,14 @@ import { SettingComponent } from './component/setting/setting.component';
 import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [{
-  // component: PortfolioComponent,
-  // path: "portfolio"},{
+  component: PortfolioComponent,
+  path: "portfolio"},{
   component: StockpickerComponent,
-  path: "stockpicker"//,{
-  // component: SettingComponent,
-  // path: "setting"},{
-  // component:LoginComponent,
-  // path: ""
+  path: "stockpicker"},{
+  component: SettingComponent,
+  path: "setting"},{
+  component:LoginComponent,
+  path: "login"
 }];
 
 @NgModule({
