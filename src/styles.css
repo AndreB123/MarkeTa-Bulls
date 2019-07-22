@@ -2,6 +2,7 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 body{
     background-color: rgb(28, 28, 37);
+    color: white;
 }
 h1{
     font-family: 'Noto Serif JP', serif;
