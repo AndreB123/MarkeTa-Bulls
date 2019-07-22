@@ -8,7 +8,7 @@ export class JwtInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // checks the storage for the current user
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        //adds authorization the current request header 
+        // adds authorization the current request header 
         if (currentUser && currentUser.token) {
             request = request.clone({
                 setHeaders: { 
