@@ -1,0 +1,34 @@
+#page{
+    display: grid;
+    grid-template-columns: 20% auto;
+}
+
+#col-one{
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+#col-two{
+    text-align: center;
+}
+
+#Search{
+    display: relative;
+    width: 80%;
+}
+
+#SButton{
+    display: relative;
+    width: 10%;
+}
+
+#Page{
+    background-color: white;
+    color: black;
+}
+
+#stocks > div{
+    display: grid;
+    grid-template-columns: auto;
+}

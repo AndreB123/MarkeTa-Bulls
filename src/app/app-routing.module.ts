@@ -18,10 +18,14 @@ const routes: Routes = [{
   path: "setting", canActivate: [AuthGuard]},{
   component:LoginComponent,
   path: "login"
+<<<<<<< HEAD
 },  
 { path: 'register', component: RegisterComponent },
 //everything else that isnt there
 { path: '**', redirectTo: '' }];
+=======
+}];
+>>>>>>> 11a9eec67da5b406498888782460d40870b903c2
 
 @NgModule({
   imports: [
