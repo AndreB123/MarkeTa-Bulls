@@ -27,3 +27,8 @@
     background-color: white;
     color: black;
 }
+
+#stocks > div{
+    display: grid;
+    grid-template-columns: auto;
+}
