@@ -7,18 +7,19 @@ import { headersToString } from 'selenium-webdriver/http';
 export class AuthService {
     constructor(private http: HttpClient) { }
 
-    login(username: string, password: string) {
-        const body = new HttpParams().set("Username", "username").set("password", "password")
-        const headers = new HttpHeaders().set("Access-Control-Allow-Origin", "*")
-        return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/login`, { headers: headers, body: body })
-            .pipe(map(user => {
-                // login successful if there's a jwt token in the response
-                
-                if (user && user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page 'refreshes'
-                    localStorage.setItem('currentUser', JSON.stringify(user.username));
-                    console.log(localStorage.getItem('currentUser'))
-                }
+  login(username: string, password: string) {
+      console.log(username);
+      console.log(password);
+      const body = new HttpParams().append("Username", username).append("password", password)
+      return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/login`, body)
+          .pipe(map(user => {
+              // login successful if there's a jwt token in the response
+              console.log(user);
+              if (user && user.token) {
+                  // store user details and jwt token in local storage to keep user logged in between page 'refreshes'
+                  console.log(user);
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+              }
 
                 return user;
             }));
