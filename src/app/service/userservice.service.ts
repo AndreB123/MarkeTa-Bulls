@@ -8,7 +8,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<User[]>(`/users`);
+        return this.http.get<User[]>(`/`);
     }
 
     getByUsername(username: string) {
@@ -16,7 +16,7 @@ export class UserService {
     }
 
     register(user: User) {
-        return this.http.post(`/users/register`, user);
+        return this.http.post(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, user);
     }
 
     update(user: User) {
