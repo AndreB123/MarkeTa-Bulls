@@ -14,7 +14,7 @@ export class AuthService {
           .pipe(map(user => {
               // login successful if there's a jwt token in the response
               console.log(user);
-              if (user && user.token) {
+              if (user) {
                   // store user details and jwt token in local storage to keep user logged in between page 'refreshes'
                   console.log(user);
                   localStorage.setItem('currentUser', JSON.stringify(user));
