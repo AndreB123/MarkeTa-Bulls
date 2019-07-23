@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
       console.log(username);
@@ -20,13 +21,13 @@ export class AuthService {
                   localStorage.setItem('currentUser', JSON.stringify(user));
               }
 
-              return user;
-          }));
-  }
+                return user;
+            }));
+    }
 
-  logout() {
-      // remove user from local storage and ends session to log user out
-      localStorage.removeItem('currentUser');
-      this.http.post<any>(`/MarkeTa-Bulls/logout`,{});
-  }
+    logout() {
+        // remove user from local storage and ends session to log user out
+        localStorage.removeItem('currentUser');
+        this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/logout`, {});
+    }
 }
