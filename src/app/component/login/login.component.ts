@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/service/auth.service';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService) { }
+    private authenticationService: AuthService,
+    private alertService: AlertService) {}
 
   ngOnInit() {
   this.loginForm = this.formBuilder.group({
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit {
                   this.router.navigate([this.returnUrl]);
               },
               error => {
+                this.alertService.error(error);
                 console.log(error);
                 this.loading = false;
             });

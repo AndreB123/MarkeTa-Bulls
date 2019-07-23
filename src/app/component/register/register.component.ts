@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import {  UserService } from 'src/app/service/userservice.service';
+import { AlertService } from 'src/app/service/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,8 @@ export class RegisterComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private router: Router,
-      private userService: UserService) { }
+      private userService: UserService,
+      private alertService: AlertService) {}
 
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
@@ -48,6 +50,7 @@ export class RegisterComponent implements OnInit {
                   this.router.navigate(['/login']);
               },
               error => {
+                  this.alertService.error(error);
                   console.log(error);
                   this.loading = false;
               });

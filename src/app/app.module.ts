@@ -18,7 +18,10 @@ import { RegisterComponent } from './component/register/register.component';
 import { AuthGuard } from './service/authfilter';
 import { AuthService } from './service/auth.service';
 import { UserService } from './service/userservice.service';
-import { JwtInterceptor } from './service/jwtTokenCeck';
+import { JwtInterceptor  } from './service/jwtTokenCeck';
+import { AlertDirective } from './directive/alert.directive';
+import { AlertService} from './service/alert.service';
+import { ErrorService } from './service/error.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { JwtInterceptor } from './service/jwtTokenCeck';
     StockpickerComponent,
     SettingComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AlertDirective
+
   ],
   imports: [
     BrowserModule,
@@ -41,8 +46,9 @@ import { JwtInterceptor } from './service/jwtTokenCeck';
   providers: [AuthGuard,
     AuthService,
     UserService,
+    AlertService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorService, multi: true },
 ],
   bootstrap: [AppComponent]
 })
