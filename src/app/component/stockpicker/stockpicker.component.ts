@@ -15,7 +15,11 @@ export class StockpickerComponent implements OnInit {
 
   ngOnInit() {
     this.displayMarkets();
+<<<<<<< HEAD
     //this.displayStocks();
+=======
+    this.displayStocks();
+>>>>>>> 4b2c3baf867ac2acbcf0281db01c1d25c5ed00d3
     let btn = document.getElementById("SButton");
     btn.addEventListener("click", (e:Event) => this.displayStocks());
   }
@@ -81,6 +85,7 @@ export class StockpickerComponent implements OnInit {
           results.setAttribute("id", "result" + count);
           results.setAttribute("method", "post");
           results.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/stock/add");
+          results.setAttribute("target", "['/stockpicker']");
 
           var exchangename = document.createElement("label");
           exchangename.setAttribute("id", "ename"+count);
