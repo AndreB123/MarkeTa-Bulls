@@ -22,6 +22,7 @@ import { JwtInterceptor  } from './service/jwtTokenCeck';
 import { AlertDirective } from './directive/alert.directive';
 import { AlertService} from './service/alert.service';
 import { ErrorService } from './service/error.service';
+import { PortStocksComponent } from './component/port-stocks/port-stocks.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ErrorService } from './service/error.service';
     SettingComponent,
     LoginComponent,
     RegisterComponent,
-    AlertDirective
+    AlertDirective,
+    PortStocksComponent
 
   ],
   imports: [
