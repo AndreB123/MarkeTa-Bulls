@@ -1,15 +1,29 @@
-<p>
-  stockpicker works!
-</p>
-<div id="page">
-  <div id="col-one">
-    
-  </div>
-  <div id="col-two">
-      <input id="Search" type="text" name="Search"/>
-      <input id="SButton" value="Search" type="button">
-      <div id="stocks">
+<h1 class="display-4 text-center">Stock Lookup</h1>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <p class="text-center">To begin building a stock portfolio, first ensure you have created a portoflio on the
+        portfolio page.</p>
+      <hr class="bg-dark">
+    </div>
+  </div>
+</div>
+
+<div id="page" class="container-fluid">
+  <br><br>
+  <div class="row">
+    <div class="col-3" id="col-one">
+    </div>
+
+    <div class="col-6" id="col-two">
+      <p>Enter a stock symbol or ticker to start.</p>
+      <input id="Search" type="text" name="Search" />
+      <button id="SButton" value="Search">Search</button>
+      <p>Search for multiple stocks by seprerating each symbol with a comma and no spaces.</p>
+      <div id="stocks">
       </div>
+    </div>
   </div>
 </div>
