@@ -16,7 +16,8 @@ export class UserService {
     }
 
     register(user: User) {
-        return this.http.post(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, user);
+        console.log(user);
+        return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, user);
     }
 
     update(user: User) {
