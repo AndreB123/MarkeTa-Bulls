@@ -40,7 +40,7 @@ export class PortfolioComponent implements OnInit {
   }
 
   sell(amount){
-    console.log(amount);
+    
   }
 
   getPortfolios(){
