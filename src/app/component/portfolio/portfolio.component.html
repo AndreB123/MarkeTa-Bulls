@@ -1,7 +1,7 @@
 <h1>Hi {{currentUser.username}}!</h1>
 <h2>Current Balance: ${{currentUser.balance}}</h2>
-<form>
-    <input type="text" name="name" required/>
+<form (ngSubmit)="onSubmit()">
+    <input id= "portfolioName" type="text" name="name" required/>
     <input type="submit" value="Add New Portfolio"/>
 </form>
 <div id="Port-list">

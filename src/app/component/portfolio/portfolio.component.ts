@@ -10,6 +10,9 @@ import { User } from 'src/app/classes/user';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
+  loading = false;
+  submitted = false;
+  returnUrl: string;
   currentUser: User;
   users: User[] = [];
   portfolios:any[];
@@ -24,12 +27,25 @@ export class PortfolioComponent implements OnInit {
     console.log("hit");
   }
 
+  onSubmit(){
+    return this.portfolio.insertPortfolio((<HTMLInputElement>document.getElementById("portfolioName")).value).subscribe(
+      data => {
+        this.getPortfolios();
+      },
+      error => {
+        error = "Couldn't insert portfolio.";
+        console.log(error);
+      }
+    )
+  }
+
   getPortfolios(){
     return this.portfolio.getPortfolios().subscribe(
       data => {
         this.portfolios = data["portfolios"];
         console.log(this.portfolios);
         var list = document.getElementById("Port-list");
+        list.innerHTML = "";
 
         var portnum = 0;
         var count = 0;
@@ -38,7 +54,7 @@ export class PortfolioComponent implements OnInit {
           redirect.setAttribute("routerLink", "portfoliostocks");
 
           var port = document.createElement("div");
-          port.setAttribute("id", "port");
+          port.setAttribute("id", "port" + portnum);
           var name = document.createElement("label");
           port.setAttribute("id", "name");
           name.innerHTML = "Portfolio: " + o["name"];
@@ -56,6 +72,7 @@ export class PortfolioComponent implements OnInit {
           this.stocks = data["stocks"][portnum]["port-"+portnum];
           console.log(this.stocks);
 
+          var stockNum = 0;
           for(let s of this.stocks){
             var symbol = document.createElement("label");
             symbol.setAttribute("id", "symbol");
@@ -71,20 +88,24 @@ export class PortfolioComponent implements OnInit {
             port.appendChild(purchaseAmount);
             var currentBalance = document.createElement("label");
             currentBalance.setAttribute("id", "currentBalance");
+
+            var costContainer = document.createElement("div");
+            costContainer.setAttribute("id", "contain"+stockNum);
+            port.appendChild(costContainer);
             this.iex.getStockBySymbol(s["symbol"]).subscribe(
               data2 => {
-                let tmp = data2["quoteResponse"]["result"][0];
+                let tmp = data2["quoteResponse"]["result"][stockNum];
                 let bal = s["amount"] * tmp["regularMarketPrice"] - s["amount"] * s["purchaseprice"];
                 currentBalance.innerHTML = "Current worth: " + bal;
                 count += bal;
                 document.getElementById("balance").innerHTML = "Balance: $" + count;
+                document.getElementById("contain"+stockNum).appendChild(currentBalance);
               },
               error => {
                 error = "Couldn't retrieve stocks.";
                 console.log(error);
               }
             )
-            port.appendChild(currentBalance);
             var sellAmount = document.createElement("input");
             sellAmount.setAttribute("name", "sellAmount");
             sellAmount.setAttribute("type", "number");
@@ -93,6 +114,8 @@ export class PortfolioComponent implements OnInit {
             submit.setAttribute("type", "submit");
             submit.value = "Sell";
             port.appendChild(submit);
+            port.innerHTML += "<br>";
+            stockNum += 1;
           }
           redirect.appendChild(port);
           list.appendChild(redirect);
