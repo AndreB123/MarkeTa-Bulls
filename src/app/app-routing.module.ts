@@ -14,15 +14,14 @@ const routes: Routes = [{
   component: PortfolioComponent,
   path: "portfolio", canActivate: [AuthGuard]},{
   component: StockpickerComponent,
-  path: "stockpicker"},{//, canActivate: [AuthGuard]},{
+  path: "stockpicker", canActivate: [AuthGuard]},{
   component: SettingComponent,
   path: "setting", canActivate: [AuthGuard]},{
   component:LoginComponent,
   path: "login"
 },  
-{ path: 'register', component: RegisterComponent },
-{path: 'portfoliostocks', component: PortStocksComponent},
 //everything else that isnt there
+{ path: 'register', component: RegisterComponent },
 { path: '**', redirectTo: '' }];
 
 @NgModule({

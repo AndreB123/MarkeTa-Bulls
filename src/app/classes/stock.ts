@@ -3,4 +3,5 @@ export class Stock {
     stockSymbol: string;
     stockInitialPrice: number;
     stockCurrentPrice: number;
+    portfolioId: number;
 }
