@@ -13,7 +13,7 @@ const routes: Routes = [{
   component: PortfolioComponent,
   path: "portfolio", canActivate: [AuthGuard]},{
   component: StockpickerComponent,
-  path: "stockpicker", canActivate: [AuthGuard]},{
+  path: "stockpicker"},{//, canActivate: [AuthGuard]},{
   component: SettingComponent,
   path: "setting", canActivate: [AuthGuard]},{
   component:LoginComponent,
