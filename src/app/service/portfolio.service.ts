@@ -21,4 +21,10 @@ export class PortfolioService {
     const body = new HttpParams().append("Username", name).append("name", portName)
     return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/insertPortfolio`, body)
   }
+
+  sellPortfolio(portId){
+    console.log(portId);
+    const body = new HttpParams().append("portId", portId)
+    return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/sellPortfolio`, body)
+  }
 }

@@ -3,12 +3,14 @@ import { PortfolioService } from 'src/app/service/portfolio.service';
 import { IEXService } from 'src/app/service/iex.service';
 
 import { User } from 'src/app/classes/user';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
+
 export class PortfolioComponent implements OnInit {
   loading = false;
   submitted = false;
@@ -24,7 +26,6 @@ export class PortfolioComponent implements OnInit {
 
   ngOnInit() {
     this.getPortfolios();
-    console.log("hit");
   }
 
   onSubmit(){
@@ -37,10 +38,6 @@ export class PortfolioComponent implements OnInit {
         console.log(error);
       }
     )
-  }
-
-  sell(amount){
-    
   }
 
   getPortfolios(){
@@ -67,11 +64,6 @@ export class PortfolioComponent implements OnInit {
           balance.setAttribute("id", "balance");
           balance.innerHTML = "Balance: $0";
           port.appendChild(balance);
-          var sellPort = document.createElement("input");
-          sellPort.setAttribute("type", "submit");
-          sellPort.value = "Sell Portfolio";
-          port.appendChild(sellPort);
-          port.innerHTML += "<br>";
 
           this.stocks = data["stocks"][portnum]["port-"+portnum];
           console.log(this.stocks);
@@ -104,6 +96,7 @@ export class PortfolioComponent implements OnInit {
                 count += bal;
                 document.getElementById("balance").innerHTML = "Balance: $" + count;
                 document.getElementById("contain"+stockNum).appendChild(currentBalance);
+                (<HTMLInputElement>document.getElementById("overallBalance")).value = ""+bal;
               },
               error => {
                 error = "Couldn't retrieve stocks.";
@@ -111,11 +104,29 @@ export class PortfolioComponent implements OnInit {
               }
             )
             var form = document.createElement("form");
-            form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
+            form.setAttribute("method", "get");
+            form.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/updateStock");
+            form.setAttribute("target", "['/portfolio']");
             var sellAmount = document.createElement("input");
             sellAmount.setAttribute("name", "sellAmount");
             sellAmount.setAttribute("type", "number");
             form.appendChild(sellAmount);
+            var stockId = document.createElement("input")
+            stockId.setAttribute("type", "hidden");
+            stockId.setAttribute("name", "stockId");
+            stockId.value = s["id"];
+            form.appendChild(stockId);
+            var overallBalance = document.createElement("input");
+            overallBalance.setAttribute("id", "overallBalance")
+            overallBalance.setAttribute("type", "hidden");
+            overallBalance.setAttribute("name", "overallBalance");
+            form.appendChild(overallBalance);
+            var tmpname = localStorage.getItem("currentUser").split(":")[1].split("\"")[1];
+            var username = document.createElement("input")
+            username.setAttribute("type", "hidden");
+            username.setAttribute("name", "username");
+            username.value = tmpname;
+            form.appendChild(username);
             var submit = document.createElement("input");
             submit.setAttribute("type", "submit");
             submit.value = "Sell";
@@ -138,3 +149,4 @@ export class PortfolioComponent implements OnInit {
   }
 
 }
+

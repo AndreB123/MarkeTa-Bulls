@@ -12,4 +12,16 @@ export class PortStocksComponent implements OnInit {
   ngOnInit() {
   }
 
+  sellPortfolio(portId){
+    console.log(portId);
+    // return this.portfolio.sellPortfolio(portId).subscribe(
+    //   data => {
+    //   },
+    //   error => {
+    //     error = "Couldn't delete portfolio.";
+    //     console.log(error);
+    //   }
+    // )
+  }
+
 }
