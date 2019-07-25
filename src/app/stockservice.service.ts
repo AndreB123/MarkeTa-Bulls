@@ -19,7 +19,7 @@ export class StockserviceService {
   }
 
   deleteStock(id: number, portId: number){
-    return this.http.delete('http://localhost:8080/pipelineTest/MarkeTa-Bulls/removeStock', Stock);
+    return this.http.delete('http://localhost:8080/pipelineTest/MarkeTa-Bulls/removeStock');
 
   }
 
