@@ -3,6 +3,7 @@ import { PortfolioService } from 'src/app/service/portfolio.service';
 import { IEXService } from 'src/app/service/iex.service';
 
 import { User } from 'src/app/classes/user';
+import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-portfolio',
@@ -10,11 +11,8 @@ import { User } from 'src/app/classes/user';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
-  loading = false;
-  submitted = false;
-  returnUrl: string;
+  
   currentUser: User;
-  users: User[] = [];
   portfolios:any[];
   stocks:any[];
 
@@ -54,82 +52,123 @@ export class PortfolioComponent implements OnInit {
         var portnum = 0;
         var count = 0;
         for(let o of this.portfolios){
-          var redirect = document.createElement("a");
-          redirect.setAttribute("routerLink", "portfoliostocks");
-
+          //portfolios
           var port = document.createElement("div");
           port.setAttribute("id", "port" + portnum);
-          var name = document.createElement("label");
+
+          port.setAttribute("class", "card bg-dark");
+
+          var name = document.createElement("h3");
+          name.setAttribute("class","display-4")
           port.setAttribute("id", "name");
+
+
           name.innerHTML = "Portfolio: " + o["name"];
           port.appendChild(name);
+
+          port.innerHTML+="<br>"
+
           var balance = document.createElement("label");
           balance.setAttribute("id", "balance");
+          balance.setAttribute("class", "port");
           balance.innerHTML = "Balance: $0";
           port.appendChild(balance);
+
+          port.innerHTML+="<br>"
+
+          var formDiv = document.createElement("div");
+          formDiv.setAttribute("class","row");
+
+          var formcol = document.createElement("div");
+          formcol.setAttribute("class","col-4");
+          
+          formDiv.appendChild(formcol);
+          
+
           var sellPort = document.createElement("input");
           sellPort.setAttribute("type", "submit");
+          sellPort.setAttribute("class","form-group col-4");
           sellPort.value = "Sell Portfolio";
-          port.appendChild(sellPort);
+          formDiv.appendChild(sellPort);
+
           port.innerHTML += "<br>";
+
+          port.appendChild(formDiv);
 
           this.stocks = data["stocks"][portnum]["port-"+portnum];
           console.log(this.stocks);
 
-          var stockNum = 0;
+          //for each stock in a portfolio
+          
           for(let s of this.stocks){
-            var symbol = document.createElement("label");
-            symbol.setAttribute("id", "symbol");
-            symbol.innerHTML ="Symbol: " + s["symbol"];
-            port.appendChild(symbol);
-            var amount = document.createElement("label");
-            amount.setAttribute("id", "amount");
-            amount.innerHTML ="Shares: " + s["amount"];
-            port.appendChild(amount);
-            var purchaseAmount = document.createElement("label");
-            purchaseAmount.setAttribute("id", "purchaseAmount");
-            purchaseAmount.innerHTML = "Purchase Price Per Share: $" + s["purchaseprice"];
-            port.appendChild(purchaseAmount);
-            var currentBalance = document.createElement("label");
-            currentBalance.setAttribute("id", "currentBalance");
 
-            var costContainer = document.createElement("div");
-            costContainer.setAttribute("id", "contain"+stockNum);
-            port.appendChild(costContainer);
             this.iex.getStockBySymbol(s["symbol"]).subscribe(
               data2 => {
-                let tmp = data2["quoteResponse"]["result"][stockNum];
-                let bal = s["amount"] * tmp["regularMarketPrice"] - s["amount"] * s["purchaseprice"];
-                currentBalance.innerHTML = "Current worth: " + bal;
+                
+
+                let tmp = data2["quoteResponse"]["result"][0];
+                let curworth = s["amount"] * s["purchaseprice"]
+                let bal = s["amount"] * tmp["regularMarketPrice"] - curworth;
+              
+                var symbol = document.createElement("label");
+                symbol.setAttribute("id", "symbol");
+                symbol.setAttribute("class", "port");
+                symbol.innerHTML ="Symbol: " + s["symbol"];
+                port.appendChild(symbol);
+    
+                var amount = document.createElement("label");
+                amount.setAttribute("id", "amount");
+                amount.setAttribute("class", "port");
+                amount.innerHTML ="Shares: " + s["amount"];
+                port.appendChild(amount);
+    
+                var purchaseAmount = document.createElement("label");
+                purchaseAmount.setAttribute("id", "purchaseAmount");
+                purchaseAmount.setAttribute("class", "port");
+                purchaseAmount.innerHTML = "Purchase Price Per Share: $" + s["purchaseprice"];
+                port.appendChild(purchaseAmount);
+    
+    
+                var costContainer = document.createElement("div");
+                costContainer.setAttribute("id", "contain");
+                costContainer.setAttribute("class", "port");
+                costContainer.innerHTML= "Current worth: $" + bal;
+                port.appendChild(costContainer);
+                port.innerHTML+="<br>"
+
                 count += bal;
                 document.getElementById("balance").innerHTML = "Balance: $" + count;
-                document.getElementById("contain"+stockNum).appendChild(currentBalance);
+                
+                var form = document.createElement("form");
+                form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
+    
+                var sellAmount = document.createElement("input");
+                sellAmount.setAttribute("name", "sellAmount");
+                sellAmount.setAttribute("type", "number");
+                form.appendChild(sellAmount);
+    
+                var submit = document.createElement("input");
+                submit.setAttribute("type", "submit");
+                submit.value = "Sell";
+                form.appendChild(submit);
+                port.appendChild(form);
+                port.innerHTML += "<br>";
+                
               },
+
               error => {
                 error = "Couldn't retrieve stocks.";
                 console.log(error);
               }
             )
-            var form = document.createElement("form");
-            form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
-            var sellAmount = document.createElement("input");
-            sellAmount.setAttribute("name", "sellAmount");
-            sellAmount.setAttribute("type", "number");
-            form.appendChild(sellAmount);
-            var submit = document.createElement("input");
-            submit.setAttribute("type", "submit");
-            submit.value = "Sell";
-            form.appendChild(submit);
-            port.appendChild(form);
-            port.innerHTML += "<br>";
-            stockNum += 1;
           }
-          redirect.appendChild(port);
-          list.appendChild(redirect);
+          list.appendChild(port);
           portnum += 1;
         }
+
         console.log(data);
       },
+
       error => {
         error = "Couldn't retrieve portfolios.";
         console.log(error);
