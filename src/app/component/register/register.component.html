@@ -22,11 +22,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                        <label for="balance">Starting Balance</label>
-                        <input type="number" formControlName="balance" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f.balance.errors }" />
-                        <div *ngIf="submitted && f['balance'].errors" class="invalid-feedback">
-                            <div *ngIf="f['balance'].errors?.required">Balance is required</div>
+                        <label for="initbalance">Starting Balance</label>
+                        <input type="number" formControlName="initbalance" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f.initbalance.errors }" />
+                        <div *ngIf="submitted && f['initbalance'].errors" class="invalid-feedback">
+                            <div *ngIf="f['initbalance'].errors?.required">Balance is required</div>
                         </div>
                     </div>
                 <div class="form-group">
