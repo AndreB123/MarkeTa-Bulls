@@ -22,8 +22,8 @@ export class AuthService {
   login(username: string, password: string) {
       console.log(username);
       console.log(password);
-      const body = new HttpParams().append("Username", username).append("password", password)
-      return this.http.post<any>(`http://localhost:8088/pipelineTest/MarkeTa-Bulls/login`, body)
+      const body = new HttpParams().append("username", username).append("password", password)
+      return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/login`, body)
           .pipe(map(user => {
               // login successful if there's a jwt token in the response
               console.log(user);
