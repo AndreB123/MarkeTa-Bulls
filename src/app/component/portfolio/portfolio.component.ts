@@ -39,6 +39,10 @@ export class PortfolioComponent implements OnInit {
     )
   }
 
+  sell(amount){
+    console.log(amount);
+  }
+
   getPortfolios(){
     return this.portfolio.getPortfolios().subscribe(
       data => {
@@ -106,14 +110,17 @@ export class PortfolioComponent implements OnInit {
                 console.log(error);
               }
             )
+            var form = document.createElement("form");
+            form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
             var sellAmount = document.createElement("input");
             sellAmount.setAttribute("name", "sellAmount");
             sellAmount.setAttribute("type", "number");
-            port.appendChild(sellAmount);
+            form.appendChild(sellAmount);
             var submit = document.createElement("input");
             submit.setAttribute("type", "submit");
             submit.value = "Sell";
-            port.appendChild(submit);
+            form.appendChild(submit);
+            port.appendChild(form);
             port.innerHTML += "<br>";
             stockNum += 1;
           }
