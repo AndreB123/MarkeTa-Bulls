@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { User } from 'src/app/classes/user';
 
@@ -17,7 +17,9 @@ export class UserService {
 
     register(user: User) {
         console.log(user);
-        return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, user);
+        console.log(user.balance);
+        const body = new HttpParams().append("Username", user.username).append("password", user.password).append("balance" , ""+user.balance)
+        return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, body);
     }
 
     update(user: User) {
@@ -27,4 +29,5 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`/users/` + id);
     }
+
 }

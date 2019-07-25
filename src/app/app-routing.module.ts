@@ -7,6 +7,7 @@ import { SettingComponent } from './component/setting/setting.component';
 import { LoginComponent } from './component/login/login.component';
 import { AuthGuard } from './service/authfilter';
 import { RegisterComponent } from './component/register/register.component';
+import { PortStocksComponent } from './component/port-stocks/port-stocks.component';
 
 const routes: Routes = [{
   //nav bar

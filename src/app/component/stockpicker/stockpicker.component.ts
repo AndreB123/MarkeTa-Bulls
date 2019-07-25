@@ -83,6 +83,7 @@ export class StockpickerComponent implements OnInit {
         var page = document.getElementById("stocks");
         console.log(this.stocks);
         var count = 0;
+        page.innerHTML = "";
         for (let o of this.stocks) {
           var results = document.createElement("form");
           results.setAttribute("id", "result" + count);

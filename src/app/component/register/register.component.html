@@ -26,7 +26,11 @@
                         <input type="number" formControlName="balance" class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f.balance.errors }" />
                         <div *ngIf="submitted && f['balance'].errors" class="invalid-feedback">
+<<<<<<< HEAD
                             <div *ngIf="f['initbalance'].errors?.required">Balance is required</div>
+=======
+                            <div *ngIf="f['balance'].errors?.required">Balance is required</div>
+>>>>>>> c0c823ae9d2e5126c1e1b9e5290c0cb7071430c0
                         </div>
                     </div>
                 <div class="form-group">
