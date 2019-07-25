@@ -15,11 +15,7 @@ export class StockpickerComponent implements OnInit {
 
   ngOnInit() {
     this.displayMarkets();
-<<<<<<< HEAD
     //this.displayStocks();
-=======
-    this.displayStocks();
->>>>>>> 4b2c3baf867ac2acbcf0281db01c1d25c5ed00d3
     let btn = document.getElementById("SButton");
     btn.addEventListener("click", (e:Event) => this.displayStocks());
   }
