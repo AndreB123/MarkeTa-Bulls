@@ -168,7 +168,7 @@ export class StockpickerComponent implements OnInit {
               results.innerHTML += "<br>";
 
               var hPrice = document.createElement("input");
-              hPrice.setAttribute("name", "price");
+              hPrice.setAttribute("name", "purchaseprice");
               hPrice.setAttribute("type", "hidden");
               hPrice.setAttribute("value", o["regularMarketPrice"]);
               results.appendChild(hPrice)
@@ -201,7 +201,7 @@ export class StockpickerComponent implements OnInit {
               port.setAttribute("class", "col-3");
 
               var select = document.createElement("select");
-              select.setAttribute("name","portid")
+              select.setAttribute("name","portId")
               for (let o of this.portfolios) {
                 var option = document.createElement("option");
                 //option.setAttribute("name", o["id"]);

@@ -47,8 +47,10 @@ export class PortfolioComponent implements OnInit {
 
         var portnum = 0;
         var count = 0;
+        var balances = new Array();
         for(let o of this.portfolios){
           //portfolios
+          var trash = 0;
           var port = document.createElement("div");
           port.setAttribute("id", "port" + portnum);
 
@@ -58,14 +60,14 @@ export class PortfolioComponent implements OnInit {
           name.setAttribute("class","display-4")
           port.setAttribute("id", "name");
 
-
+          balances.push([o["id"], 0]);
           name.innerHTML = "Portfolio: " + o["name"];
           port.appendChild(name);
 
           port.innerHTML+="<br>"
 
           var balance = document.createElement("label");
-          balance.setAttribute("id", "balance");
+          balance.setAttribute("id", "balance" + o["id"]);
           balance.setAttribute("class", "port");
           balance.innerHTML = "Balance: $0";
           port.appendChild(balance);
@@ -79,13 +81,6 @@ export class PortfolioComponent implements OnInit {
           formcol.setAttribute("class","col-4");
           
           formDiv.appendChild(formcol);
-          
-
-          var sellPort = document.createElement("input");
-          sellPort.setAttribute("type", "submit");
-          sellPort.setAttribute("class","form-group col-4");
-          sellPort.value = "Sell Portfolio";
-          formDiv.appendChild(sellPort);
 
           port.innerHTML += "<br>";
 
@@ -98,58 +93,97 @@ export class PortfolioComponent implements OnInit {
           
           for(let s of this.stocks){
             var stockNum = 0;
+            var divider = document.createElement("div");
+            divider.setAttribute("id", "div:"+ s["symbol"]);
+            port.appendChild(divider)
             this.iex.getStockBySymbol(s["symbol"]).subscribe(
               data2 => {
                 
-
                 let tmp = data2["quoteResponse"]["result"][0];
                 let curworth = s["amount"] * s["purchaseprice"]
                 let bal = s["amount"] * tmp["regularMarketPrice"] - curworth;
-              
+                
+                var tmpDivider = document.getElementById("div:"+s["symbol"]);
                 var symbol = document.createElement("label");
                 symbol.setAttribute("id", "symbol");
                 symbol.setAttribute("class", "port");
                 symbol.innerHTML ="Symbol: " + s["symbol"];
-                port.appendChild(symbol);
+                tmpDivider.appendChild(symbol);
     
                 var amount = document.createElement("label");
                 amount.setAttribute("id", "amount");
                 amount.setAttribute("class", "port");
                 amount.innerHTML ="Shares: " + s["amount"];
-                port.appendChild(amount);
+                tmpDivider.appendChild(amount);
     
                 var purchaseAmount = document.createElement("label");
                 purchaseAmount.setAttribute("id", "purchaseAmount");
                 purchaseAmount.setAttribute("class", "port");
                 purchaseAmount.innerHTML = "Purchase Price Per Share: $" + s["purchaseprice"];
-                port.appendChild(purchaseAmount);
+                tmpDivider.appendChild(purchaseAmount);
     
     
                 var costContainer = document.createElement("div");
                 costContainer.setAttribute("id", "contain");
                 costContainer.setAttribute("class", "port");
                 costContainer.innerHTML= "Current worth: $" + bal;
-                port.appendChild(costContainer);
-                port.innerHTML+="<br>"
+                tmpDivider.appendChild(costContainer);
+                tmpDivider.innerHTML+="<br>"
 
-                count += bal;
-                document.getElementById("balance").innerHTML = "Balance: $" + count;
+                let found = 0;
+                for(let i of balances){
+                  if(i[0] == s["portid"])
+                    break;
+                  found += 1;
+                }
+                balances[found][1] += bal;
+                document.getElementById("balance"+s["portid"]).innerHTML = "Balance: $" + balances[found][1];
                 
                 var form = document.createElement("form");
-                form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
+                // form.setAttribute("onsubmit", "sell(" + s["stockId"] + ")");
     
+                // var sellAmount = document.createElement("input");
+                // sellAmount.setAttribute("name", "sellAmount");
+                // sellAmount.setAttribute("type", "number");
+                // form.appendChild(sellAmount);
+    
+                // var submit = document.createElement("input");
+                // submit.setAttribute("type", "submit");
+                // submit.value = "Sell";
+                // form.appendChild(submit);
+                // tmpDivider.appendChild(form);
+                // tmpDivider.innerHTML += "<br>";
+                // var form = document.createElement("form");
+                form.setAttribute("method", "get");
+                form.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/updateStock");
+                form.setAttribute("target", "['/portfolio']");
                 var sellAmount = document.createElement("input");
                 sellAmount.setAttribute("name", "sellAmount");
                 sellAmount.setAttribute("type", "number");
                 form.appendChild(sellAmount);
-    
+                var stockId = document.createElement("input")
+                stockId.setAttribute("type", "hidden");
+                stockId.setAttribute("name", "stockId");
+                stockId.value = s["id"];
+                form.appendChild(stockId);
+                var overallBalance = document.createElement("input");
+                overallBalance.setAttribute("id", "overallBalance")
+                overallBalance.setAttribute("type", "hidden");
+                overallBalance.setAttribute("name", "overallBalance");
+                overallBalance.value = ""+bal;
+                form.appendChild(overallBalance);
+                var tmpname = localStorage.getItem("currentUser").split(":")[1].split("\"")[1];
+                var username = document.createElement("input")
+                username.setAttribute("type", "hidden");
+                username.setAttribute("name", "username");
+                username.value = tmpname;
+                form.appendChild(username);
                 var submit = document.createElement("input");
                 submit.setAttribute("type", "submit");
                 submit.value = "Sell";
                 form.appendChild(submit);
-                port.appendChild(form);
+                tmpDivider.appendChild(form);
                 port.innerHTML += "<br>";
-                
               },
 
               error => {
@@ -157,43 +191,11 @@ export class PortfolioComponent implements OnInit {
                 console.log(error);
               }
             )
-            var form = document.createElement("form");
-            form.setAttribute("method", "get");
-            form.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/updateStock");
-            form.setAttribute("target", "['/portfolio']");
-            var sellAmount = document.createElement("input");
-            sellAmount.setAttribute("name", "sellAmount");
-            sellAmount.setAttribute("type", "number");
-            form.appendChild(sellAmount);
-            var stockId = document.createElement("input")
-            stockId.setAttribute("type", "hidden");
-            stockId.setAttribute("name", "stockId");
-            stockId.value = s["id"];
-            form.appendChild(stockId);
-            var overallBalance = document.createElement("input");
-            overallBalance.setAttribute("id", "overallBalance")
-            overallBalance.setAttribute("type", "hidden");
-            overallBalance.setAttribute("name", "overallBalance");
-            form.appendChild(overallBalance);
-            var tmpname = localStorage.getItem("currentUser").split(":")[1].split("\"")[1];
-            var username = document.createElement("input")
-            username.setAttribute("type", "hidden");
-            username.setAttribute("name", "username");
-            username.value = tmpname;
-            form.appendChild(username);
-            var submit = document.createElement("input");
-            submit.setAttribute("type", "submit");
-            submit.value = "Sell";
-            form.appendChild(submit);
-            port.appendChild(form);
-            port.innerHTML += "<br>";
             stockNum += 1;
           }
           list.appendChild(port);
           portnum += 1;
         }
-
-        console.log(data);
       },
 
       error => {
