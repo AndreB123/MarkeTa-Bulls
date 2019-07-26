@@ -19,7 +19,7 @@ export class UserService {
         console.log(user);
         console.log(user.balance);
         const body = new HttpParams().append("Username", user.username).append("password", user.password).append("balance" , ""+user.balance)
-        return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/CreateUser`, body);
+        return this.http.post<any>(`http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/CreateUser`, body);
     }
 
     update(user: User) {

@@ -158,7 +158,7 @@ export class PortfolioComponent implements OnInit {
                 // tmpDivider.innerHTML += "<br>";
                 // var form = document.createElement("form");
                 form.setAttribute("method", "get");
-                form.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/updateStock");
+                form.setAttribute("action", "http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/updateStock");
                 form.setAttribute("target", "['/portfolio']");
 
                 var sellAmount = document.createElement("input");

@@ -11,7 +11,7 @@ export class PortfolioService {
   getPortfolios(){
     var name = localStorage.getItem("currentUser").split(":")[1].split("\"")[1];
     //console.log(localStorage.getItem("currentUser").split(":")[1].split("\"")[1])
-    return this.http.get(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/Portfolios?Username=` + name);
+    return this.http.get(`http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/Portfolios?Username=` + name);
   }
 
   insertPortfolio(portName){
@@ -19,12 +19,12 @@ export class PortfolioService {
     console.log(portName);
     console.log(name);
     const body = new HttpParams().append("Username", name).append("name", portName)
-    return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/insertPortfolio`, body)
+    return this.http.post<any>(`http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/insertPortfolio`, body)
   }
 
   sellPortfolio(portId){
     console.log(portId);
     const body = new HttpParams().append("portId", portId)
-    return this.http.post<any>(`http://localhost:8080/pipelineTest/MarkeTa-Bulls/sellPortfolio`, body)
+    return this.http.post<any>(`http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/sellPortfolio`, body)
   }
 }

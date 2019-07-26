@@ -95,7 +95,7 @@ export class StockpickerComponent implements OnInit {
               var results = document.createElement("form");
               results.setAttribute("id", "result" + count);
               results.setAttribute("method", "post");
-              results.setAttribute("action", "http://localhost:8080/pipelineTest/MarkeTa-Bulls/insertStock");
+              results.setAttribute("action", "http://52.53.255.68:8088/pipelineTest/MarkeTa-Bulls/insertStock");
               results.setAttribute("target", "['/stockpicker']");
 
               results.setAttribute("class", "card bg-dark");
